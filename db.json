@@ -1,0 +1,101 @@
+{
+  "equipment": [
+    {
+      "name": "Videokamera",
+      "rented": 2,
+      "reserved": 3,
+      "amount": 20
+    },
+    {
+      "name": "Fotokamera",
+      "rented": 1,
+      "reserved": 0,
+      "amount": 20
+    },
+    {
+      "name": "Kamerastativ",
+      "rented": 5,
+      "reserved": 0,
+      "amount": 10
+    },
+    {
+      "name": "VR headset",
+      "rented": 0,
+      "reserved": 7,
+      "amount": 10
+    },
+    {
+      "name": "3D printer",
+      "rented": 0,
+      "reserved": 0,
+      "amount": 1
+    },
+    {
+      "name": "Mikrofon",
+      "rented": 0,
+      "reserved": 2,
+      "amount": 20
+    },
+    {
+      "name": "Ødelagte Harddisker",
+      "rented": 0,
+      "reserved": 1,
+      "amount": 35
+    },
+    {
+      "name": "Ladere",
+      "rented": 19,
+      "reserved": 0,
+      "amount": 30
+    },
+    {
+      "name": "Laptop",
+      "rented": 6,
+      "reserved": 0,
+      "amount": 30
+    }
+  ],
+  "reservationStatus":[
+    {
+      "user": "frestr01",
+      "startTime": "utctime",
+      "endTime": "utctime",
+      "equipment": "Videokamera",
+      "amount": "2"
+    },
+    {
+      "user": "inaeng01",
+      "startTime": "utctime",
+      "endTime": "utctime",
+      "equipment": "3D Printer",
+      "amount": "1"
+    }
+  ],
+  "users": [
+    {
+      "username": "henhal01",
+      "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
+      "elevated": 1
+    },
+    {
+      "username": "joahus01",
+      "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
+      "elevated": 1
+    },
+    {
+      "username": "inaeng01",
+      "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
+      "elevated": 0
+    },
+    {
+      "username": "thekal01",
+      "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
+      "elevated": 0
+    },
+    {
+      "username": "frestr01",
+      "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
+      "elevated": 0
+    }
+  ]
+}
