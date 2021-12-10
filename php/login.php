@@ -4,23 +4,23 @@ if (str_contains($_SERVER['REQUEST_URI'], 'login')) header('location:../');
 function getName($errorMessage)
 {
 ?>
+    <div class="col-left">Venstre</div>
     <div class='col-center'>
         <h1>Hvem er du?</h1>
         <div class='error'><?php echo $errorMessage; ?></div>
-        <div class='input-container'>
-            <form action='' method='POST'>
-                <div class='input-container'>
-                    <b><label for='username'>Brukernavn&nbsp;</label></b>
-                    <input type='text' id='username' name='username' required pattern='^[a-zæøå0-9]{1,32}$'>
-                </div>
-                <div class='input-container'>
-                    <b><label for='pass'>Passord&nbsp;</label></b>
-                    <input type='password' id='pass' name='password' required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
-                </div>
-                <input type='submit' value='Logg inn'>
-            </form>
-        </div>
+        <form action='' method='POST'>
+            <div class='input-container'>
+                <label for='username'>Brukernavn&nbsp;</label>
+                <input type='text' id='username' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå0-9]{1,32}$'>
+            </div>
+            <div class='input-container'>
+                <label for='pass'>Passord&nbsp;</label>
+                <input type='password' id='pass' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
+            </div>
+            <input type='submit' value='Logg inn' class="submit-btn">
+        </form>
     </div>
+    <div class="col-right">Høyre</div>
 <?php
 }
 
@@ -33,13 +33,13 @@ if (
     // Check if the inputted username matches the expected pattern
     if (
         preg_match('/^[a-zæøå0-9]{4,8}$/', trim($_POST['username'])) &&
-        preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['password'])    
-    ){
+        preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['password'])
+    ) {
         // Check if username exists
-        $exists=FALSE;
-        $i=0;
-        while($i<count($db['users'])) {
-            if(
+        $exists = FALSE;
+        $i = 0;
+        while ($i < count($db['users'])) {
+            if (
                 $db['users'][$i]['username'] == trim($_POST['username']) &&
                 password_verify($_POST['password'], $db['users'][$i]['password'])
             ) {

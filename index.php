@@ -10,7 +10,6 @@
 </head>
 <body>
     <?php
-	echo "index.php";
 
 	// Get data from Database
 	// Is formatted like: 
@@ -19,6 +18,8 @@
 	$db = json_decode(file_get_contents("db.json"), true);
 
 	// Check if user has logged in properly
+
+
 	if (isset($_COOKIE['userid'])) {
 
 		// Loop through user list to see if any user 
@@ -26,6 +27,9 @@
 		// in the userid-cookie 
 		$exists = FALSE;
 		while($i<count($db["users"])) {
+			echo "<br><br>".$db["users"][$i]["username"] . " = ". trim($_POST["username"]) . ", <br>";
+			echo $pw = password_verify($_POST["password"], $db["users"][$i]["password"]) ? "TRUE":"FALSE";
+
             if(
                 $db["users"][$i]["username"] == trim($_POST["username"]) &&
                 password_verify($_POST["password"], $db["users"][$i]["password"])

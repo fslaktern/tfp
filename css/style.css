@@ -1,3 +1,87 @@
+:root {
+
+}
+
+body {  
+    margin: 0;
+}
+
+section {
+    width: 100vw;
+    min-height: 100vh;
+
+    display: grid;
+
+    /* 1fr tar opp all gjenværende plass */
+    grid-template-columns: calc(100vw / 3) 1fr calc(100vw / 3);
+}
+
+/* Login */
+.col-left {
+    order: 1;
+}
+.col-center {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+    background-color: #f2f2f2;
+    border-radius: 0.2rem;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.col-right {
+    order: 3;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+}
+
+#username, #pass {
+    border: 1px solid #0000;
+    border-radius: 0.2rem;
+    padding: 10px;
+    transition: 0.1s ease-out border;
+}
+
+#username:focus, #pass:focus {
+    border: 1px solid #000;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #0055ff;
+    color: #fff;
+    border: 0px;
+    border-radius: 3px;
+    padding: 12px 28px;
+    transition: 0.1s ease-out background;
+}
+
+.submit-btn:hover {
+    background-color: #1a66ff;
+}
+
+.error {
+    color: #d22;
+    background-color: #f002;
+    border: 1px solid #d225;
+    padding: 0.25rem 0.4rem;
+    border-radius: 0.2rem;
+}
+
+
+/* Manage */
 table {
     
 }
@@ -11,3 +95,5 @@ td, th {
 td:nth-child(1), td:nth-child(2) {
     text-align: right;
 }
+
+/* regster */

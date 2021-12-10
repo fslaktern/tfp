@@ -14,8 +14,8 @@
     },
     {
       "name": "Kamerastativ",
-      "rented": 5,
-      "reserved": 0,
+      "rented": 6,
+      "reserved": 4,
       "amount": 10
     },
     {
@@ -27,7 +27,7 @@
     {
       "name": "3D printer",
       "rented": 0,
-      "reserved": 0,
+      "reserved": 1,
       "amount": 1
     },
     {

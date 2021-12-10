@@ -1,6 +1,5 @@
 <?php
-echo "php/manage.php";
-echo "<br><br>";
+include("register.php");
 ?>
 <table>
     <tr>
@@ -20,8 +19,8 @@ echo "<br><br>";
                 <td><button>Lån</button></td>
                 <td><button>Reserver</button></td>
             <?php } else { ?>
-                <td><button>Lån</button></td>
                 <td></td>
+                <td><button>Reserver</button></td>
             <?php } ?>
         </tr>
     <?php } ?>
