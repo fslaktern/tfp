@@ -51,10 +51,7 @@ if (
         if ($exists) {
             setcookie('userid', password_hash($_POST['username'] . $_POST['password'], PASSWORD_BCRYPT), $cookieOptions);
 
-            // Update Jason on the latest news
-            // $nextIndex = count($db['users']);
-            // $db['users'][$nextIndex] = ['name' => $_POST['username'], 'password': $_POST['username'], 'elevated' => 0, ];
-            // file_put_contents('db.json', json_encode($db));
+            
 
             // Redirect to proper page
             header('location: ../');
