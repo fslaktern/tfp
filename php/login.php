@@ -4,23 +4,23 @@ if (str_contains($_SERVER['REQUEST_URI'], 'login')) header('location:../');
 function getName($errorMessage)
 {
 ?>
-    <div class="col-left">Venstre</div>
-    <div class='col-center'>
-        <h1>Hvem er du?</h1>
-        <div class='error'><?php echo $errorMessage; ?></div>
+    <div class="col col-left">Venstre</div>
+    <div class='col col-center'>
         <form action='' method='POST'>
+            <h1>Hvem er du?</h1>
+            <div id="error" class='error' onchange="changeVisibility(this)"><?php echo $errorMessage; ?></div>
             <div class='input-container'>
                 <label for='username'>Brukernavn&nbsp;</label>
-                <input type='text' id='username' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå0-9]{1,32}$'>
+                <input type='text' id='username' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå0-9]{1,32}$' oninput="checkInput(this.value, /^[a-zæøå0-9]{4,8}$/, 'brukernavn')">
             </div>
             <div class='input-container'>
                 <label for='pass'>Passord&nbsp;</label>
-                <input type='password' id='pass' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
+                <input type='password' id='password' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
             </div>
-            <input type='submit' value='Logg inn' class="submit-btn">
+            <input type='submit' value='Logg inn'>
         </form>
     </div>
-    <div class="col-right">Høyre</div>
+    <div class="col col-right">Høyre</div>
 <?php
 }
 
@@ -51,7 +51,7 @@ if (
         if ($exists) {
             setcookie('userid', password_hash($_POST['username'] . $_POST['password'], PASSWORD_BCRYPT), $cookieOptions);
 
-            
+
 
             // Redirect to proper page
             header('location: ../');

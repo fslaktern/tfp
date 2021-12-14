@@ -26,18 +26,13 @@
 		// with matches the encrypted credentials
 		// in the userid-cookie 
 		$exists = FALSE;
-		while($i<count($db["users"])) {
-			echo "<br><br>".$db["users"][$i]["username"] . " = ". trim($_POST["username"]) . ", <br>";
-			echo $pw = password_verify($_POST["password"], $db["users"][$i]["password"]) ? "TRUE":"FALSE";
+		for($i=0; $i<count($db["users"]); $i++) {
+			// echo $pw = password_verify($_POST["password"], $db["users"][$i]["password"]) && $db["users"][$i]["username"] == trim($_POST["username"]) ? "TRUE":"FALSE";
 
-            if(
-                $db["users"][$i]["username"] == trim($_POST["username"]) &&
-                password_verify($_POST["password"], $db["users"][$i]["password"])
-            ) {
+            if($db["users"][$i]["username"] == trim($_POST["username"]) && password_verify($_POST["password"], $db["users"][$i]["password"])) {
                 $exists = TRUE;
                 break;
             }
-            $i++;
         }
 		if ($exists) $p = "manage";
 		else $p = "login";

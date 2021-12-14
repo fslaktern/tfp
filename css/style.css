@@ -3,68 +3,95 @@
 }
 
 body {  
+    background-color: #f2f2f2;
     margin: 0;
+    font-family: sans-serif;
 }
 
 section {
-    width: 100vw;
-    min-height: 100vh;
+    width: calc(100vw - 4rem);
+    min-height: calc(100vh - 4rem);
 
     display: grid;
 
     /* 1fr tar opp all gjenværende plass */
-    grid-template-columns: calc(100vw / 3) 1fr calc(100vw / 3);
+    grid-template-columns: 1fr 2fr 1fr;
+
+    gap: 2rem;
+    padding: 2rem;
 }
 
-/* Login */
-.col-left {
-    order: 1;
-}
-.col-center {
+.col {
     display: flex;
     flex-direction: column;
+}
+
+.col-left {
+    order: 1;
+    grid-column: 1 2;
+}
+
+.col-center {
     order: 2;
-    background-color: #f2f2f2;
-    border-radius: 0.2rem;
-    padding: 2rem;
-    gap: 1rem;
+    grid-column: 2 3;
 }
 
 .col-right {
     order: 3;
+    grid-column: 3 4;
 }
 
 form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    height: min-content;
+    padding: 2rem;
+
+    max-width: 20rem;
+
+    background-color: #fff;
+    border-radius: 0.2rem;
+    -webkit-border-radius: 0.2rem;
+    -moz-border-radius: 0.2rem;
+    -ms-border-radius: 0.2rem;
+    -o-border-radius: 0.2rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: xx-large;
 }
 
 .input-container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-
 }
 
-#username, #pass {
+input, button, label {
+    font-size: 1rem;
+}
+
+input[type=text],input[type=password]  {
+    background-color: #f2f2f2;
     border: 1px solid #0000;
     border-radius: 0.2rem;
-    padding: 10px;
+    padding: 0.75rem;
     transition: 0.1s ease-out border;
 }
 
-#username:focus, #pass:focus {
-    border: 1px solid #000;
+input[type=text]:focus, input[type=password]:focus {
+    border: 1px solid #0004;
     outline: none;
 }
 
-.submit-btn {
+button[type=submit], input[type=submit] {
     background-color: #0055ff;
     color: #fff;
     border: 0px;
     border-radius: 3px;
-    padding: 12px 28px;
+    padding: 0.7rem;
     transition: 0.1s ease-out background;
 }
 
@@ -74,16 +101,20 @@ form {
 
 .error {
     color: #d22;
-    background-color: #f002;
+    background-color: #ff00002a;
     border: 1px solid #d225;
-    padding: 0.25rem 0.4rem;
+    padding: 0.4rem 0.5rem;
     border-radius: 0.2rem;
+    -webkit-border-radius: 0.2rem;
+    -moz-border-radius: 0.2rem;
+    -ms-border-radius: 0.2rem;
+    -o-border-radius: 0.2rem;
 }
 
 
 /* Manage */
 table {
-    
+    border-collapse: collapse;
 }
 
 td, th {
