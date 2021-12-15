@@ -18,23 +18,23 @@
 	$db = json_decode(file_get_contents("db.json"), true);
 
 	// Check if user has logged in properly
-
-
 	if (isset($_COOKIE['userid'])) {
 
 		// Loop through user list to see if any user 
 		// with matches the encrypted credentials
 		// in the userid-cookie 
-		$exists = FALSE;
+		$e = FALSE;
 		for($i=0; $i<count($db["users"]); $i++) {
-			// echo $pw = password_verify($_POST["password"], $db["users"][$i]["password"]) && $db["users"][$i]["username"] == trim($_POST["username"]) ? "TRUE":"FALSE";
-
+			// if($db["users"][$i]["username"] == trim($_POST["username"])) echo "<br><br>".$db["users"][$i]["username"] . " == " . $_POST["username"];
+			// else echo "<br><br>".$db["users"][$i]["username"] . " != " . $_POST["username"];
+			// if(password_verify($_POST["password"], $db["users"][$i]["password"])) echo "<br>" . $_POST["password"] . " == " . $db["users"][$i]["password"];
+			// else echo "<br>" . $_POST["password"] . " != " . $db["users"][$i]["password"];
             if($db["users"][$i]["username"] == trim($_POST["username"]) && password_verify($_POST["password"], $db["users"][$i]["password"])) {
-                $exists = TRUE;
+                $e = TRUE;
                 break;
             }
         }
-		if ($exists) $p = "manage";
+		if ($e) $p = "manage";
 		else $p = "login";
 	} else $p = "login";
 

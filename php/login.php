@@ -1,14 +1,17 @@
 <?php
 // Redirect to homepage if user tries to open this page directly
-if (str_contains($_SERVER['REQUEST_URI'], 'login')) header('location:../');
+if (str_contains($_SERVER['REQUEST_URI'], 'login') || !isset($_SERVER['REQUEST_URI'])) header('location:../');
 function getName($errorMessage)
 {
 ?>
-    <div class="col col-left">Venstre</div>
+    <div class="col col-left"></div>
     <div class='col col-center'>
         <form action='' method='POST'>
             <h1>Hvem er du?</h1>
-            <div id="error" class='error' onchange="changeVisibility(this)"><?php echo $errorMessage; ?></div>
+            <?php
+                $d = $errorMessage == "" ? "none" : "block";
+                echo "<div id='error' class='error' style='display: $d;'>$errorMessage</div>"; 
+            ?>
             <div class='input-container'>
                 <label for='username'>Brukernavn&nbsp;</label>
                 <input type='text' id='username' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå0-9]{1,32}$' oninput="checkInput(this.value, /^[a-zæøå0-9]{4,8}$/, 'brukernavn')">
@@ -20,7 +23,7 @@ function getName($errorMessage)
             <input type='submit' value='Logg inn'>
         </form>
     </div>
-    <div class="col col-right">Høyre</div>
+    <div class="col col-right"></div>
 <?php
 }
 
@@ -51,10 +54,8 @@ if (
         if ($exists) {
             setcookie('userid', password_hash($_POST['username'] . $_POST['password'], PASSWORD_BCRYPT), $cookieOptions);
 
-
-
             // Redirect to proper page
             header('location: ../');
         } else getName('Brukernavn eller passord er feil :(');
-    } else getName('Et eller fler av feltene inneholder ulovlige symboler :(');
+    } else getName('Et eller fler av feltene er formatert feil :(');
 } else getName('');
