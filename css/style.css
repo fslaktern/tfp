@@ -10,6 +10,9 @@ body {
     background-color: #eaeaea;
     margin: 0;
     font-family: sans-serif;
+    
+    display: flex;
+    flex-direction: column;
 }
 
 section {
@@ -22,6 +25,7 @@ section {
     gap: 2rem;
 }
 
+/*############# login #############*/
 section#login::before {
     content: "";
     position: absolute;
@@ -80,8 +84,8 @@ form {
     box-shadow: 0 0.5rem 1rem #0002;
 }
 
-h1 {
-    margin: 0;
+h2 {
+    margin: 0;0001
     font-size: xx-large;
 }
 
@@ -91,13 +95,13 @@ h1 {
     gap: 0.5rem;
 }
 
-input, button, label {
+input, button, label, select, option {
     font-size: 1rem;
 }
 
-input[type=text],input[type=password]  {
+input[type=text],input[type=password], select, option {
     /* border: 1px solid #0000; */
-    border: 1px solid #0001;
+    border: 1px solid #bbb;
     background-color: #f2f2f2;
     border-radius: 0.2rem;
     padding: 0.75rem;
@@ -130,7 +134,9 @@ button[type=submit], input[type=submit] {
     -o-transition: 0.1s ease-out background;
 }
 
-/* button[type=submit]:hover, input[type=submit]:hover {background-color: #1463ff;} */
+button[type=submit]:hover, input[type=submit]:hover {
+    background-color: #1463ff;
+}
 button[type=submit]:active, input[type=submit]:active {
     background-color: #04c;
 }
@@ -147,25 +153,72 @@ button[type=submit]:active, input[type=submit]:active {
     -o-border-radius: 0.2rem;
 }
 
-
-/* Manage */
+/*############# Manage #############*/
 table {
     border-collapse: collapse;
+    border: 1px solid #bbb;
+    height: min-content;
+    background-color: #fff;
 }
 
 td, th {
-    padding: 0.25rem 0.4rem;
+    padding: 0.75rem;
     margin: 0;
-    border-bottom: 1px solid #000;
+    text-align: left;
 }
 
-td:nth-child(1), td:nth-child(2) {
-    text-align: right;
+th {
+    border-bottom: 1px solid #bbb;
 }
 
-/* regster */
+th, tr:nth-child(odd) {
+    background-color: #f2f2f2 !important;
+}
+
+button { 
+    width: fit-content;
+    height: fit-content;
+
+    background-color: #ddd;
+    color: #000;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid #bbb;
+    border-radius: 0.2rem;
+    -webkit-border-radius: 0.2rem;
+    -moz-border-radius: 0.2rem;
+    -ms-border-radius: 0.2rem;
+    -o-border-radius: 0.2rem;
+    transition: 0.1s ease-out background;
+    -webkit-transition: 0.1s ease-out background;
+    -moz-transition: 0.1s ease-out background;
+    -ms-transition: 0.1s ease-out background;
+    -o-transition: 0.1s ease-out background;
+}
+button:hover {
+    background-color: #e7e7e7;
+}
+
+button:active {
+    background-color: #d0d0d0;
+}
+
+a {
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5rem;
+
+    color: #004ce6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/*############# Register #############*/
 
 
+/* Make the background resolution on the login page no more than than the device screen resolution */
 @media only screen and (max-height: 240px) {
     section#login::before {
         background: url("../img/240-Warehouse-rack.jpg") !important;
@@ -174,7 +227,7 @@ td:nth-child(1), td:nth-child(2) {
 
 @media only screen and (max-height: 480px) {
     section#login::before {
-        background: url("../img/480-Warehouse-rack.jpg") !important;
+        background: url("../img/480-Warehouse-rack.jpg"), url("../img/240-Warehouse-rack.jpg") !important;
     }
 }
 
