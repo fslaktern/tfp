@@ -6,26 +6,29 @@ if (!isset($_SERVER['REQUEST_URI']) || str_contains($_SERVER['REQUEST_URI'], 'lo
 function getName($errorMessage)
 {
 ?>
-    <div class="col col-left"></div>
-    <div class='col col-center'>
-        <form action='' method='POST'>
-            <h2>Hvem er du?</h2>
-            <?php
-            $d = $errorMessage == "" ? "none" : "block";
-            echo "<div id='error' class='error' style='display: $d;'>$errorMessage</div>";
-            ?>
-            <div class='input-container'>
-                <label for='username'>Brukernavn&nbsp;</label>
-                <input type='text' id='username' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå]{2,6}[0-9]{2}$' oninput="checkInput(this.value, /^[a-zæøå0-9]{4,8}$/, 'brukernavn')">
-            </div>
-            <div class='input-container'>
-                <label for='pass'>Passord&nbsp;</label>
-                <input type='password' id='password' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
-            </div>
-            <input type='submit' value='Logg inn'>
-        </form>
+    <div class='col'>
+        <div class="container pad">
+            <form action='' method='POST'>
+                <h2>Hvem er du?</h2>
+                <?php
+                $d = $errorMessage == "" ? "none" : "block";
+                echo "<div id='error' class='error' style='display: $d;'>$errorMessage</div>";
+                ?>
+                <div class='input-container'>
+                    <label for='loginUsername'>Brukernavn&nbsp;</label>
+                    <input type='text' id='loginUsername' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå]{2,6}[0-9]{2}$' oninput="checkInput(this.value, /^[a-zæøå0-9]{4,8}$/, 'brukernavn')">
+                </div>
+                <div class='input-container'>
+                    <div class="above-input">
+                        <label for='loginPassword'>Passord&nbsp;</label>
+                        <a onclick="showPassword('loginPassword',this)">Show/Hide</a>
+                    </div>
+                    <input type='password' id='loginPassword' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
+                </div>
+                <input type='submit' value='Logg inn'>
+            </form>
+        </div>
     </div>
-    <div class="col col-right"></div>
 <?php
 }
 
@@ -56,7 +59,7 @@ if (
                 setcookie('userid', $i, $cookieOptions);
 
                 // Redirect to user to manage.php
-                header('location: /');
+                header('location:./');
                 break;
             }
             $i++;
