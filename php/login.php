@@ -2,7 +2,7 @@
 // Redirect to homepage if user tries to open this page directly
 if (!isset($_SERVER['REQUEST_URI']) || str_contains($_SERVER['REQUEST_URI'], 'login')) header('location:../');
 
-// Show the login page with custom error code when run
+// Show the login page with custom error code
 function getName($errorMessage)
 {
 ?>
@@ -12,20 +12,20 @@ function getName($errorMessage)
                 <h2>Hvem er du?</h2>
                 <?php
                 $d = $errorMessage == "" ? "none" : "block";
-                echo "<div id='error' class='error' style='display: $d;'>$errorMessage</div>";
+                echo "<div class='error' style='display: $d;'>$errorMessage</div>";
                 ?>
                 <div class='input-container'>
                     <label for='loginUsername'>Brukernavn&nbsp;</label>
-                    <input type='text' id='loginUsername' name='username' placeholder="Brukernavn" required pattern='^[a-zæøå]{2,6}[0-9]{2}$' oninput="checkInput(this.value, /^[a-zæøå0-9]{4,8}$/, 'brukernavn')">
+                    <input type='text' id='loginUsername' name='username' placeholder="Brukernavn" required autofocus pattern='^[a-zæøå]{2,6}[0-9]{2}$'>
                 </div>
                 <div class='input-container'>
                     <div class="above-input">
                         <label for='loginPassword'>Passord&nbsp;</label>
-                        <a onclick="showPassword('loginPassword',this)">Show/Hide</a>
+                        <a onclick="showPassword('loginPassword')">Vis/Skjul</a>
                     </div>
                     <input type='password' id='loginPassword' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
                 </div>
-                <input type='submit' value='Logg inn'>
+                <input type='submit' value="Logg inn">
             </form>
         </div>
     </div>
@@ -46,11 +46,12 @@ if (
     ) {
         // Check if a user with matching credentials exists
         $exists = FALSE;
-        $i = 0;
-        while ($i < count($db['users'])) {
+        var_dump($db);
+        die();
+        for ($i=0;$i<count($db["users"]); $i++) {
             if (
-                $db['users'][$i]['username'] == trim($_POST['username']) &&
-                password_verify($_POST['password'], $db['users'][$i]['password'])
+                $user['username'] == trim($_POST['username']) &&
+                password_verify($_POST['password'], $user['password'])
             ) {
                 $exists = TRUE;
 

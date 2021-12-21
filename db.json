@@ -1,222 +1,116 @@
 {
-	"equipment": [
-		{ "name": "Videokamera", "rented": 2, "reserved": 3, "amount": 20 },
-		{ "name": "Fotokamera", "rented": 1, "reserved": 0, "amount": 20 },
-		{ "name": "Kamerastativ", "rented": 6, "reserved": 4, "amount": 10 },
-		{ "name": "VR headset", "rented": 0, "reserved": 7, "amount": 10 },
-		{ "name": "3D printer", "rented": 0, "reserved": 1, "amount": 1 },
-		{ "name": "Mikrofon", "rented": 0, "reserved": 2, "amount": 20 },
-		{
-			"name": "\u00d8delagt HDD",
-			"rented": 0,
-			"reserved": 1,
-			"amount": 35
-		},
-		{ "name": "Lader", "rented": 19, "reserved": 0, "amount": 30 },
-		{ "name": "Laptop", "rented": 6, "reserved": 0, "amount": 30 }
-	],
-	"users": [
-		{
-			"username": "henhal01",
-			"password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
-			"elevated": 1,
-			"creationDate": "2021.12.16",
-			"reserved": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			],
-			"rented": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			]
-		},
-		{
-			"username": "joahus01",
-			"password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
-			"elevated": 1,
-			"creationDate": "2021.12.16",
-			"reserved": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			],
-			"rented": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			]
-		},
-		{
-			"username": "inaeng01",
-			"password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
-			"elevated": 0,
-			"creationDate": "2021.12.16",
-			"reserved": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			],
-			"rented": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			]
-		},
-		{
-			"username": "thekal01",
-			"password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
-			"elevated": 0,
-			"creationDate": "2021.12.16",
-			"reserved": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			],
-			"rented": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			]
-		},
-		{
-			"username": "frestr01",
-			"password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX/FOJjDNjmCQQ4F3.Ay",
-			"elevated": 0,
-			"creationDate": "2021.12.16",
-			"reserved": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			],
-			"rented": [
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				},
-				{
-					"startTime": "utctime",
-					"endTime": "utctime",
-					"equipment": "3D Printer",
-					"amount": 1
-				}
-			]
-		},
-		{
-			"username": "larhel01",
-			"password": "$2y$10$xT6zUAHeYLEuqvYzA7LSK.Oibf26Xo7cbqQxZfa6ko8RzGo6.Rmby",
-			"elevated": "1",
-			"creationDate": "2021.12.17",
-			"reserved": [],
-			"rented": []
-		},
-		{
-			"username": "denmat01",
-			"password": "$2y$10$STKFhBuTISuTvz9gm40GGumdo/DIe0U.ApyJC/yJ2YKUZZjMPmhXC",
-			"elevated": "0",
-			"creationDate": "2021.12.17",
-			"reserved": [],
-			"rented": []
-		},
-		{
-			"username": "casskr01",
-			"password": "$2y$10$hVpZIjg5mrswc7xgGEuWBeVxXKbNQxlrptCBeXE/FWM2UJz1BC2Eu",
-			"elevated": "0",
-			"creationDate": "2021.12.17",
-			"reserved": [],
-			"rented": []
-		},
-		{
-			"username": "casskr02",
-			"password": "$2y$10$eV1slOo7mVdk3pKMhN86rOZ.p54dmrAv/Khm59zusL6B.AP97GV6e",
-			"elevated": "0",
-			"creationDate": "2021.12.17",
-			"reserved": [],
-			"rented": []
-		}
-	]
+  "equipment": [{
+    "amount": 20,
+    "name": "Videokamera",
+    "rented": 2,
+    "reserved": 3
+  }, {
+    "amount": 20,
+    "name": "Fotokamera",
+    "rented": 1,
+    "reserved": 0
+  }, {
+    "amount": 10,
+    "name": "Kamerastativ",
+    "rented": 6,
+    "reserved": 4
+  }, {
+    "amount": 10,
+    "name": "VR headset",
+    "rented": 0,
+    "reserved": 7
+  }, {
+    "amount": 1,
+    "name": "3D printer",
+    "rented": 0,
+    "reserved": 1
+  }, {
+    "amount": 20,
+    "name": "Mikrofon",
+    "rented": 0,
+    "reserved": 2
+  }, {
+    "amount": 35,
+    "name": "\u00d8delagt HDD",
+    "rented": 0,
+    "reserved": 1
+  }, {
+    "amount": 30,
+    "name": "Lader",
+    "rented": 19,
+    "reserved": 0
+  }, {
+    "amount": 30,
+    "name": "Laptop",
+    "rented": 6,
+    "reserved": 0
+  }],
+  "users": [{
+    "creationDate": "2021.12.16",
+    "elevated": 1,
+    "password": "$2y$10$2PbaYp\/6FbWNWERYgcjUou5PSLLWrdu.yY.kxooNRJv.9FZL7.Rry",
+    "rented": [],
+    "reserved": [{
+      "amount": 1,
+      "endTime": "2021.12.21.16.00.00",
+      "equipment": "3D Printer",
+      "startTime": "utctime"
+    }, {
+      "amount": 1,
+      "endTime": "utctime",
+      "equipment": "3D Printer",
+      "startTime": "utctime"
+    }],
+    "username": "henhal01"
+  }, {
+    "creationDate": "2021.12.16",
+    "elevated": 1,
+    "password": "$2y$10$fw8NWT7QCaIVHoLlb3Bgx.CvrdPceipQv\/t5C\/14.mKGsDAUhSbHC",
+    "rented": [],
+    "reserved": [],
+    "username": "joahus01"
+  }, {
+    "creationDate": "2021.12.16",
+    "elevated": 0,
+    "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX\/FOJjDNjmCQQ4F3.Ay",
+    "rented": [],
+    "reserved": [],
+    "username": "inaeng01"
+  }, {
+    "creationDate": "2021.12.16",
+    "elevated": 0,
+    "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX\/FOJjDNjmCQQ4F3.Ay",
+    "rented": [],
+    "reserved": [],
+    "username": "thekal01"
+  }, {
+    "creationDate": "2021.12.16",
+    "elevated": 0,
+    "password": "$2y$10$DLtEn9eXajhVcByEMsyTqORtMJZep4zJ6ZX\/FOJjDNjmCQQ4F3.Ay",
+    "rented": [],
+    "reserved": [],
+    "username": "frestr01"
+  }, {
+    "creationDate": "2021.12.17",
+    "elevated": "1",
+    "password": "$2y$10$xT6zUAHeYLEuqvYzA7LSK.Oibf26Xo7cbqQxZfa6ko8RzGo6.Rmby",
+    "rented": [],
+    "reserved": [],
+    "username": "larhel01"
+  }, {
+    "creationDate": "2021.12.17",
+    "elevated": "0",
+    "password": "$2y$10$STKFhBuTISuTvz9gm40GGumdo\/DIe0U.ApyJC\/yJ2YKUZZjMPmhXC",
+    "rented": [],
+    "reserved": [],
+    "username": "denmat01"
+  }, {
+    "creationDate": "2021.12.17",
+    "elevated": "0",
+    "password": "$2y$10$hVpZIjg5mrswc7xgGEuWBeVxXKbNQxlrptCBeXE\/FWM2UJz1BC2Eu",
+    "rented": [],
+    "reserved": [],
+    "username": "casskr01"
+  },
+  ]
 }

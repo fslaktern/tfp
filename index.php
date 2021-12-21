@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE htmly
 <html lang="en">
 
 <head>
@@ -12,14 +12,29 @@
 </head>
 
 <body>
-	<?php
-	
-	// Get data from json database 
+<?php
+	function logData($data) {
+
+		// Get data from json log
+		$log = json_decode(file_get_contents("log.json"), true);
+
+		if(!isset($log[date("Y")][date("m")][date("d")])) {
+			if (!isset($log[date("Y")])) $log[] = date("Y");
+			if (!isset($log[date("Y")][date("m")])) $log[date("y")] = date("m");
+			if (!isset($log[date("Y")][date("m")][date("d")])) $log[date("Y")][date("m")] = [date("d")=>[]];
+		}
+		#print_r($log);
+		#array_push($log[date("Y")][date("m")][date("d")], [$data]);
+		var_dump($log);
+		file_put_contents('log.json', json_encode($log));
+	}
+
+	// Get data from json database
 	$db = json_decode(file_get_contents("db.json"), true);
 
 	// Check if user with the id exists
 	if (isset($_COOKIE['userid'])) {
-		if ($db["users"][$_COOKIE['userid']]) $p = "main";
+		if (isset($db["users"][$_COOKIE['userid']])) $p = "main";
 		else $p = "login";
 	} else $p = "login";
 

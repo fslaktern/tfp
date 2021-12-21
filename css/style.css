@@ -21,6 +21,7 @@ section {
     max-width: calc(100vw - 4rem);
     min-height: calc(100vh - 4rem);
     padding: 2rem;
+    margin: 0 auto;
 
     display: grid;
     gap: 2rem;
@@ -47,7 +48,7 @@ section#login {
 }
 
 section#login>* {
-    margin: auto;
+    margin: 10vh auto;
 }
 
 section#main, section#admin {
@@ -115,7 +116,7 @@ input, button, label, select, option {
     font-size: 1rem;
 }
 
-input[type=text],input[type=password], select, option {
+input:not([type=submit]), select, option {
     font-family: 'RobotoMono Nerd Font', monospace !important;
     border: none;
     background-color: #f2f2f2;
@@ -126,13 +127,19 @@ input[type=text],input[type=password], select, option {
     -moz-transition: 0.1s ease-out background;
     -ms-transition: 0.1s ease-out background;
     -o-transition: 0.1s ease-out background;
+    -webkit-border-radius: 0.2rem;
+    -moz-border-radius: 0.2rem;
+    -ms-border-radius: 0.2rem;
+    -o-border-radius: 0.2rem;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input:not([type=submit]):focus{
     background-color: #e4e4e4;
 }
 
 button[type=submit], input[type=submit] {
+    font-weight: 500;
+    font-family: 'RobotoMono Nerd Font', monospace !important;
     padding: 1rem 0.7rem;
 
     background-color: #0055ff;
@@ -203,13 +210,14 @@ table {
 td, th {
     padding: 0.75rem;
     margin: 0;
+    font-family: 'RobotoMono Nerd Font', monospace;
     text-align: left;
 }
 th {
     font-weight: 600;
 }
 
-td.center {
+td.num {
     text-align: center;
 }
 
