@@ -55,23 +55,73 @@ function addUser($errorMessage)
     </div>
 <?php
 }
+function deleteUser($errorMessage)
+{
+    $db = $GLOBALS['db'];
+?>
+    <div class="container pad">
+        <form method="POST" action="">
+            <h2>Slett en eller flere bruker</h2>
+            <?php
+            $d = $errorMessage == "" ? "none" : "block";
+            echo "<div class='error' style='display: $d;'>$errorMessage</div>";
+            ?>
+            <div class="input-container">
+                <label for="deleteUser">Velg bruker</label>
+                <select name="deleteUser" id="deleteUser" required>
+                    <option value="" selected disabled>Velg fra listen</option>
+                    <?php
+                    for ($i = 0; $i < count($db["users"]); $i++) {
+                        if ($db["users"][$i]["elevated"] == 0) {
+                            echo "<option value='" . $i . "'>" . $db['users'][$i]['username'] . "</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="deleteGroup">Velg gruppe</label>
+
+            </div>
+            <input type="submit" value="Fjern bruker">
+        </form>
+    </div>
+<?php
+}
 if (isset($_POST["nuUsername"]) && isset($_POST["nuPassword"]) && isset($_POST["nuPasswordConfirm"]) && isset($_POST["nuType"])) {
     if (
         preg_match('/^[a-zæøå]{2,6}$/', trim($_POST['nuUsername'])) &&
         preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['nuPassword']) &&
         preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['nuPasswordConfirm']) &&
-        preg_match('/^[01]{1}$/', $_POST['nuType'])
+        preg_match('/^[01]{1}$/', $_POST['nuType']) &&
+        $_POST['nuUsername'] &&
+        $_POST['nuPassword']
     ) {
-        if ($_POST["nuPassword"] == $_POST["nuPasswordConfirm"]) {
-            $matchingUsernames = 1;
-            foreach ($db['users'] as $user) if (substr($user['username'], 0, strlen(trim($_POST['nuUsername']))) == trim($_POST['nuUsername'])) {
-                $matchingUsernames++;
+        if ($_POST["nuPassword"] === $_POST["nuPasswordConfirm"]) {
+            $i = 1;
+            $exists = true;
+            while ($exists == true) {
+
+                // Pad id with a "0" if there are less than 2 digits.
+                if ($i < 10) $id = "0" . $i;
+                else $id = $i;
+
+                $n = $i % count($db["users"]);
+                if ($db['users'][$n]['username'] == $_POST['nuUsername'] . $id) $i++;
+
+                $exists = false;
+                for ($d = 0; $d < count($db["users"]); $d++) {
+                    if ($db['users'][$d]["username"] == $_POST['nuUsername'] . $id) {
+                        $exists = true;
+                        break;
+                    }
+                }
+                if (!$exists) break;
+                
+                echo "i=$i,d=$d,n=$n,id=$id,exists=$exists";
+
+                // die();
             }
-
-            // Pad id with a "0" if there are less than 2 digits.
-            if ($matchingUsernames < 10) $id = "0" . $matchingUsernames;
-            else $id = $matchingUsernames;
-
 
             $user = [
                 "username" => $_POST["nuUsername"] . $id,
@@ -86,16 +136,47 @@ if (isset($_POST["nuUsername"]) && isset($_POST["nuPassword"]) && isset($_POST["
             file_put_contents('db.json', json_encode($db));
 
             $logData = [
-                "time"=>date("Hms"),
-                "user"=>$db["users"][$_COOKIE["userid"]]["username"],
-                "func"=>"add_user",
-                "addr"=>$_SERVER["REMOTE_ADDR"],
-                "data"=>base64_encode(json_encode($user))
+                "time" => date("Hms"),
+                "user" => $db["users"][$_COOKIE["userid"]]["username"],
+                "func" => "add_user",
+                "addr" => $_SERVER["REMOTE_ADDR"],
+                "data" => base64_encode(json_encode($user))
             ];
-            logData($logData);
-
-            die("Redirect cancelled");
+            logThis($logData);
+            die();
             header("Location:./");
         } else addUser("Passordene samsvarer ikke :(");
     } else addUser("Et eller flere felter er formatert feil :(");
 } else addUser("");
+
+if (isset($_POST["deleteUser"]) && !is_null($_POST["deleteUser"])) {
+    if (isset($db["users"][$_POST["deleteUser"]])) {
+        $userid = $_POST["deleteUser"];
+        if ($db["users"][$userid]["elevated"] == "0") {
+
+            // Save the deleted user in a separate array if it needs to be recovered later
+            $deletedUser = $db["users"][$userid];
+            array_push($db["deletedUsers"], $deletedUser);
+
+            // Delete user from userlist 
+            unset($db["users"][$userid]);
+            file_put_contents("db.json", json_encode($db));
+
+            // Log the action
+            $logData = [
+                "time" => date("Hms"),
+                "user" => $db["users"][$_COOKIE["userid"]]["username"],
+                "func" => "delete_user",
+                "addr" => $_SERVER["REMOTE_ADDR"],
+                "data" => base64_encode(json_encode($deletedUser))
+            ];
+            logThis($logData);
+
+            // Update page with new changes
+            header("Location:./");
+        } else deleteUser("Du kan dessverre ikke fjerne denne brukeren :(");
+    } else deleteUser("Denne brukeren finnes ikke :(");
+} else deleteUser("");
+
+if (isset($_POST["restoreUser"])) {
+}

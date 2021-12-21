@@ -156,7 +156,7 @@ function changePassword($errorMessage)
                 && preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['confirmPassword'])
             )
                 if (password_verify($_POST['oldPassword'], $db["users"][$_COOKIE['userid']]['password']))
-                    if ($_POST['newPassword'] == $_POST['confirmPassword']) {
+                    if ($_POST['newPassword'] === $_POST['confirmPassword']) {
                         $db["users"][$_COOKIE['userid']]['password'] = password_hash($_POST['newPassword'], PASSWORD_BCRYPT);
                         file_put_contents("db.json", json_encode($db));
                         header("Location:./");

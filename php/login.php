@@ -39,33 +39,28 @@ if (
     isset($_POST['username']) &&
     isset($_POST['password'])
 ) {
+    
     // Check if the inputted username matches the expected pattern
     if (
         preg_match('/^[a-zæøå]{2,6}[0-9]{2}$/', trim($_POST['username'])) &&
         preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['password'])
     ) {
-        // Check if a user with matching credentials exists
-        $exists = FALSE;
-        var_dump($db);
-        die();
-        for ($i=0;$i<count($db["users"]); $i++) {
-            if (
-                $user['username'] == trim($_POST['username']) &&
-                password_verify($_POST['password'], $user['password'])
-            ) {
-                $exists = TRUE;
 
+        // Check if a user with matching credentials exists
+        for ($i = 0; $i < count($db["users"]); $i++) {
+            if (
+                $db['users'][$i]['username'] == trim($_POST['username']) &&
+                password_verify($_POST['password'], $db['users'][$i]['password'])
+            ) {
                 // Remember the user with a cookie
                 // setcookie('userid', password_hash($_POST['username'] . $_POST['password'], PASSWORD_BCRYPT), $cookieOptions);
                 setcookie('userid', $i, $cookieOptions);
 
                 // Redirect to user to manage.php
                 header('location:./');
-                break;
             }
-            $i++;
         }
         // Reopen the login page, with a custom error message 
-        if (!$exists) getName('Brukernavn eller passord er feil :(');
+        getName('Brukernavn eller passord er feil :(');
     } else getName('Et eller fler av feltene er formatert feil :(');
 } else getName('');
