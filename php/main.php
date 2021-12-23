@@ -3,6 +3,7 @@
     - [ ] Låning og Reservering som fungerer.
     - [ ] Logging av alle hendelser på nettsiden.
     - [ ] La lærere se loggen.
+    - [ ] Passordkrav.
     - [ ] Se reserverte/utlånte produkter.
         - Elever skal kun se sitt eget.
         - Lærere skal kunne se alle sitt + mulighet til å overskrive elevers reservasjoner.
@@ -90,8 +91,6 @@ function changePassword($errorMessage)
             <input type="submit" value="Lån">
         </form>
     </div>
-</div>
-<div class="col">
     <div class="container pad">
         <form method="POST" action="" id="reserve" class="mainForm">
             <h2>Reserver fra lageret</h2>
@@ -135,6 +134,14 @@ function changePassword($errorMessage)
 
             <input type="submit" value="Reserver produkt">
         </form>
+    </div>
+</div>
+<div class="col">
+    <div class="container pad">
+        <h2>Lånte produkter</h2>
+    </div>
+    <div class="container pad">
+        <h2>Reserverte Produkter</h2>
     </div>
 </div>
 <div class="col">

@@ -107,16 +107,16 @@ if (isset($_POST["nuUsername"]) && isset($_POST["nuPassword"]) && isset($_POST["
                 else $id = $i;
 
                 $n = $i % count($db["users"]);
-                if ($db['users'][$n]['username'] == $_POST['nuUsername'] . $id) $i++;
+                if ($db['users'][$n]['username'] == $_POST['nuUsername'] . $id) {
+                    break;
+                }
 
                 $exists = false;
-                for ($d = 0; $d < count($db["users"]); $d++) {
+                for ($d = 0; $d < count($db["users"]); $d++)
                     if ($db['users'][$d]["username"] == $_POST['nuUsername'] . $id) {
                         $exists = true;
                         break;
                     }
-                }
-                if (!$exists) break;
                 
                 echo "i=$i,d=$d,n=$n,id=$id,exists=$exists";
 
