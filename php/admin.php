@@ -1,36 +1,36 @@
 <?php
 if (!isset($_SERVER['REQUEST_URI']) || str_contains($_SERVER['REQUEST_URI'], 'admin')) header('location:../');
-?><div class="container">
+?>
+<div class="container">
     <table>
         <tr>
-            <th>Opprettelsesdato</th>
-            <th>Brukertype</th>
+            <th>Opprettet</th>
+            <th>Type</th>
             <th>Brukernavn</th>
         </tr>
-        <?php
-        foreach ($db["users"] as $user) {
-        ?>
+        <?php foreach ($db["users"] as $user) { ?>
             <tr>
-                <td><?php echo $user["creationDate"]; ?></td>
-                <td><?php echo $user["elevated"] == 1 ? "Lærer" : "Elev"; ?></td>
-                <td><?php echo $user["username"]; ?></td>
+                <td>
+                    <?php echo $user["creationDate"]; ?>
+                </td>
+                <td>
+                    <?php echo $user["elevated"] == 1 ? "Lærer" : "Elev"; ?>
+                </td>
+                <td>
+                    <?php echo $user["username"]; ?>
+                </td>
             </tr>
-        <?php
-        }
-        ?>
+        <?php } ?>
     </table>
 </div>
 <?php
 function addUser($errorMessage)
-{
-?>
+{ ?>
     <div class="container pad">
         <form method="POST" action="">
             <h2>Legg til ny bruker</h2>
-            <?php
-            $d = $errorMessage == "" ? "none" : "block";
-            echo "<div class='error' style='display: $d;'>$errorMessage</div>";
-            ?>
+            <?php $d = $errorMessage == "" ? "none" : "block";
+            echo "<div class='error' style='display: $d;'>$errorMessage</div>"; ?>
             <div class="input-container">
                 <label for="nuType">Brukertype</label>
                 <select name="nuType" id="nuType" required>
@@ -43,7 +43,7 @@ function addUser($errorMessage)
                 <input type="text" name="nuUsername" id="nuUsername" placeholder="Brukernavn (uten id)" pattern="^[a-zæøå]{2,6}$" required>
             </div>
             <div class="input-container">
-                <div class="above-input">
+                <div class="bar">
                     <label for="nuPassword">Passord</label>
                     <a onclick="showPassword('nuPassword')">Vis/Skjul</a>
                 </div>
@@ -57,31 +57,25 @@ function addUser($errorMessage)
 }
 function deleteUser($errorMessage)
 {
-    $db = $GLOBALS['db'];
-?>
+    $db = $GLOBALS['db']; ?>
     <div class="container pad">
         <form method="POST" action="">
             <h2>Slett en eller flere bruker</h2>
-            <?php
-            $d = $errorMessage == "" ? "none" : "block";
-            echo "<div class='error' style='display: $d;'>$errorMessage</div>";
-            ?>
+            <?php $d = $errorMessage == "" ? "none" : "block";
+            echo "<div class='error' style='display: $d;'>$errorMessage</div>"; ?>
             <div class="input-container">
                 <label for="deleteUser">Velg bruker</label>
                 <select name="deleteUser" id="deleteUser" required>
                     <option value="" selected disabled>Velg fra listen</option>
-                    <?php
-                    for ($i = 0; $i < count($db["users"]); $i++) {
+                    <?php for ($i = 0; $i < count($db["users"]); $i++) {
                         if ($db["users"][$i]["elevated"] == 0) {
                             echo "<option value='" . $i . "'>" . $db['users'][$i]['username'] . "</option>";
                         }
-                    }
-                    ?>
+                    } ?>
                 </select>
             </div>
             <div class="input-container">
                 <label for="deleteGroup">Velg gruppe</label>
-
             </div>
             <input type="submit" value="Fjern bruker">
         </form>
@@ -117,10 +111,7 @@ if (isset($_POST["nuUsername"]) && isset($_POST["nuPassword"]) && isset($_POST["
                     }
                 }
                 if (!$exists) break;
-                
                 echo "i=$i,d=$d,n=$n,id=$id,exists=$exists";
-
-                // die();
             }
 
             $user = [
@@ -136,14 +127,13 @@ if (isset($_POST["nuUsername"]) && isset($_POST["nuPassword"]) && isset($_POST["
             file_put_contents('db.json', json_encode($db));
 
             $logData = [
-                "time" => date("Hms"),
+                "time" => date("H:m:s"),
                 "user" => $db["users"][$_COOKIE["userid"]]["username"],
                 "func" => "add_user",
                 "addr" => $_SERVER["REMOTE_ADDR"],
                 "data" => base64_encode(json_encode($user))
             ];
             logThis($logData);
-            die();
             header("Location:./");
         } else addUser("Passordene samsvarer ikke :(");
     } else addUser("Et eller flere felter er formatert feil :(");
@@ -158,13 +148,13 @@ if (isset($_POST["deleteUser"]) && !is_null($_POST["deleteUser"])) {
             $deletedUser = $db["users"][$userid];
             array_push($db["deletedUsers"], $deletedUser);
 
-            // Delete user from userlist 
+            // Delete user from userlist
             unset($db["users"][$userid]);
             file_put_contents("db.json", json_encode($db));
 
             // Log the action
             $logData = [
-                "time" => date("Hms"),
+                "time" => date("H:m:s"),
                 "user" => $db["users"][$_COOKIE["userid"]]["username"],
                 "func" => "delete_user",
                 "addr" => $_SERVER["REMOTE_ADDR"],
@@ -180,3 +170,40 @@ if (isset($_POST["deleteUser"]) && !is_null($_POST["deleteUser"])) {
 
 if (isset($_POST["restoreUser"])) {
 }
+?>
+</section>
+<section id="logs">
+    <?php
+    $logs = json_decode(file_get_contents("log.json"), true);
+    $logsToday = $logs[date("Y")][date("m")][date("d")];
+    ?>
+    <div class="container container-large">
+        <div class="bar">
+            <h2>Logg</h2>
+            <input type="date" name="logDate" value="<?php echo date("Y/m/d"); ?>">
+        </div>
+        <table>
+            <tr>
+                <th>Klokkeslett</th>
+                <th>Bruker</th>
+                <th>IP-addresse</th>
+                <th>Handling</th>
+                <th>Data</th>
+            </tr>
+            <?php
+            for ($i = 0; $i < count($logsToday); $i++) {
+                echo "
+                <tr>
+                    <td>" . $logsToday[$i]["time"] . "</td>
+                    <td>" . $logsToday[$i]["user"] . "</td>
+                    <td>" . $logsToday[$i]["addr"] . "</td>
+                    <td>" . $logsToday[$i]["func"] . "</td>
+                    <td>
+                    <a target='_blank' href='php/raw.php?d=" . urlencode($logsToday[$i]["data"]) . "'>Åpne</td>
+                </tr>
+                ";
+            }
+            ?>
+        </table>
+    </div>
+</section>

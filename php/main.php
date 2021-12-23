@@ -15,35 +15,9 @@
 // Prevent users from opening this page directly (or without logging in first)
 if (!isset($_SERVER['REQUEST_URI']) || str_contains($_SERVER['REQUEST_URI'], 'main')) header('location:../');
 ob_start();
-function changePassword($errorMessage)
-{
-?>
-    <form method="POST" action="">
-        <h2>Bytt passord</h2>
-        <?php
-        $d = $errorMessage == "" ? "none" : "block";
-        echo "<div class='error' style='display: $d;'>$errorMessage</div>";
-        ?>
-        <div class="input-container">
-            <div class="above-input">
-                <label for="oldPassword">Nåværende passord</label>
-                <a onclick="showPassword('oldPassword')">Vis/Skjul</a>
-            </div>
-            <input type='password' id='oldPassword' name='oldPassword' placeholder="Nåværende passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
-        </div>
-        <div class="input-container">
-            <div class="above-input">
-                <label for="newPassword">Nytt passord</label>
-                <a onclick="showPassword('newPassword')">Vis/Skjul</a>
-            </div>
-            <input type='password' id='newPassword' name='newPassword' placeholder="Nytt passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
-            <input type='password' id='confirmPassword' name='confirmPassword' placeholder="Bekreft passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
-        </div>
-        <input type="submit" value="Bytt passord">
-    </form>
-<?php
-}
-?>
+function changePassword($errorMessage){ ?>
+<form method="POST" action=""><h2>Bytt passord</h2><?php $d = $errorMessage == "" ? "none" : "block";echo "<div class='error' style='display: $d;'>$errorMessage</div>";?><div class="input-container"><div class="bar"><label for="oldPassword">Nåværende passord</label><a onclick="showPassword('oldPassword')">Vis/Skjul</a></div><input type='password' id='oldPassword' name='oldPassword' placeholder="Nåværende passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'></div><div class="input-container"><div class="bar"><label for="newPassword">Nytt passord</label><a onclick="showPassword('newPassword')">Vis/Skjul</a></div><input type='password' id='newPassword' name='newPassword' placeholder="Nytt passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'><input type='password' id='confirmPassword' name='confirmPassword' placeholder="Bekreft passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'></div><input type="submit" value="Bytt passord"></form>
+<?php } ?>
 
 <div class="col">
     <div class="container">
@@ -60,7 +34,7 @@ function changePassword($errorMessage)
                 <tr>
                     <td><?php echo $item["name"]; ?></td>
                     <td class="num"><?php echo $item["amount"] - ($item["reserved"] + $item["rented"]); ?></td>
-                    <td class='num'><?php echo $item["reserved"]; ?> </td>
+                    <td class='num'><?php echo $item["reserved"]; ?></td>
                     <td class='num'><?php echo $item["rented"]; ?></td>
                 </tr>
             <?php } ?>
