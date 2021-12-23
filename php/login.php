@@ -55,6 +55,14 @@ if (
                 // Remember the user with a cookie
                 // setcookie('userid', password_hash($_POST['username'] . $_POST['password'], PASSWORD_BCRYPT), $cookieOptions);
                 setcookie('userid', $i, $cookieOptions);
+                
+                $logData = [
+                    "time" => date("H").":".date("m").":".date("s"),
+                    "user" => $db["users"][$_COOKIE["userid"]]["username"],
+                    "func" => "login",
+                    "addr" => $_SERVER["REMOTE_ADDR"],
+                ];
+                logThis($logData);
 
                 // Redirect to user to manage.php
                 header('location:./');

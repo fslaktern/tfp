@@ -7,12 +7,12 @@
     font-family: "Inter", "Roboto", sans-serif;
 }
 
-body {  
+body {
     background-color: #eaeaea;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    
+
     display: flex;
     flex-direction: column;
 }
@@ -21,7 +21,6 @@ section {
     max-width: calc(100vw - 4rem);
     min-height: calc(100vh - 4rem);
     padding: 2rem;
-    margin: 0 auto;
 
     display: grid;
     gap: 2rem;
@@ -51,10 +50,9 @@ section#login>* {
     margin: 10vh auto;
 }
 
-section#main, section#admin {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+section#main, section#admin, section#logs {
+    grid-template-columns: 30vw repeat(auto-fit, 20vw);
 }
-
 
 .col {
     display: flex;
@@ -186,7 +184,7 @@ button[type=submit]:active, input[type=submit]:active {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    
+
     background-color: #fff;
     box-shadow: 0 0.5rem 1rem #0001;
 
@@ -212,6 +210,7 @@ td, th {
     margin: 0;
     font-family: 'RobotoMono Nerd Font', monospace;
     text-align: left;
+    white-space: nowrap;
 }
 th {
     font-weight: 600;
@@ -235,7 +234,7 @@ tr:first-child>* {
 }
 th:first-child{
     padding-left: 2rem !important;
-} 
+}
 td:first-child{
     padding-left: 2rem !important;
 }
@@ -245,7 +244,7 @@ tr:last-child>* {
 }
 th:last-child{
     padding-right: 2rem !important;
-} 
+}
 td:last-child{
     padding-right: 2rem !important;
 }
@@ -281,7 +280,7 @@ button:active {
     background-color: #04c;
 }
 
-.above-input {
+.bar {
     display: flex;
     justify-content: space-between;
 }
@@ -311,7 +310,7 @@ i {
     font-family: "RobotoMono Nerd Font";
 }
 a {
-    font-family: "RobotoMono Nerd Font", monospace;    
+    font-family: "RobotoMono Nerd Font", monospace;
     font-weight: 500;
     cursor: pointer;
     width: fit-content;
