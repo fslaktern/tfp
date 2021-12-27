@@ -81,17 +81,23 @@ function deleteUser($errorMessage)
                     <?php } ?>
                 </select>
             </div>
+            <input type="submit" value="Fjern bruker">
+        </form>
+        <form action="" method="post">
             <div class="input-container">
                 <label for="deleteGroupTime">Velg brukere opprettet mellom to datoer</label>
                 <input type="date" name="deleteGroupTimeStart" id="deleteGroupTime">
                 <input type="date" name="deleteGroupTimeEnd">
             </div>
+            <input type="submit" value="Fjern bruker(e)">
+        </form>
+        <form action="" method="post">
             <div class="input-container">
                 <label for="deleteGroupRegex">Velg brukere med Regex</label>
                 <input type="text" name="deleteGroupRegex" id="deleteGroupRegex" placeholder="^test[123456789]{1}">
             </div>
 
-            <input type="submit" value="Fjern bruker">
+            <input type="submit" value="Fjern bruker(e)">
         </form>
     </div>
 <?php
@@ -120,6 +126,33 @@ function restoreUser()
         </form>
     </div>
 <?php
+}
+function filterLogs() {
+    ?>
+    <div class="container pad">
+        <h2>Filtrer loggen</h2>
+        <form action="" method="POST">
+            <div class="input-container">
+                <label for="">Velg bruker</label>
+                <select name="" id="" required>
+                    <option value="" selected disabled>Velg fra listen</option>
+                </select>
+            </div>
+            <input type="submit" value="Filtrer etter bruker">
+        </form>
+        <form action="" method="POST">
+            <div class="input-container">
+                <label for="">Velg nett</label>
+                <select name="" id="">
+                    <option value="" selected disabled>Velg fra listen</option>
+                    <option value="0">Elevnett</option>
+                    <option value="1">Lærernett</option>
+                </select>
+            </div>
+            <input type="submit" value="Filtrer etter nett">
+        </form>
+    </div>
+    <?php
 }
 function showLogs($logs, $method)
 {
@@ -279,6 +312,18 @@ function showLogs($logs, $method)
 </div>
 </section>
 <section id="logs">
+    <div class="col">
+        <?php
+            if(isset($_POST["logFilter"])) {
+                // Filtrer etter:
+                // * Tid,
+                // * Bruker,
+                // * Elev-/Lærernett,
+                // * IP-addresse,
+                // * Hendelse
+            } else filterLogs();
+        ?>
+    </div>
     <div class="col large">
         <?php
         $log = importLogs();

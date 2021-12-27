@@ -79,6 +79,11 @@ form.small {
     min-width: 0;
 }
 
+form:not(:last-child) {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #0002;
+}
+
 h2 {
     margin: 0;
     font-weight: 700;
@@ -167,7 +172,7 @@ button[type=submit]:active, input[type=submit]:active {
 }
 
 .large {
-    grid-column: 1 / -1 !important;
+    grid-column: 2 / -1 !important;
 }
 
 .container {

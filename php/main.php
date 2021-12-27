@@ -14,6 +14,8 @@
     - [X] Mulighet til å bytte passord.
     - [X] Registrere nye brukere (kun for lærere).
     - [ ] Filterfunksjoner i loggen.
+
+    EGET FORM-ELEMENT FOR HVER FUNKSJON, ALT SKAL VÆRE REQUIRED.
  -->
 <?php
 // Prevent users from opening this page directly (or without logging in first)
