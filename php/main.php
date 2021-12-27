@@ -1,23 +1,49 @@
 <!--
     TODO:
+    - [ ] Få alle dato-inputtene til å funke.
     - [ ] Låning og Reservering som fungerer.
-    - [ ] Logging av alle hendelser på nettsiden.
-    - [ ] La lærere se loggen.
-    - [ ] Passordkrav.
     - [ ] Se reserverte/utlånte produkter.
         - Elever skal kun se sitt eget.
         - Lærere skal kunne se alle sitt + mulighet til å overskrive elevers reservasjoner.
+    - [ ] Passordkrav som er synlige for brukeren.
     - [ ] Automatisk sletting av reservasjoner om det ikke er hentet innen dato/tid.
-    - [x] Registrere nye brukere (kun for lærere).
-    - [x] Knapp for å logge ut
-    - [x] Mulighet til å bytte passord
+    - [X] Knapp for å logge ut.
+    - [/] Logging av alle hendelser på nettsiden.
+    - [X] La lærere se loggen.
+    - [ ] Mobilt layout.
+    - [X] Mulighet til å bytte passord.
+    - [X] Registrere nye brukere (kun for lærere).
+    - [ ] Filterfunksjoner i loggen.
  -->
 <?php
 // Prevent users from opening this page directly (or without logging in first)
 if (!isset($_SERVER['REQUEST_URI']) || str_contains($_SERVER['REQUEST_URI'], 'main')) header('location:../');
 ob_start();
-function changePassword($errorMessage){ ?>
-<form method="POST" action=""><h2>Bytt passord</h2><?php $d = $errorMessage == "" ? "none" : "block";echo "<div class='error' style='display: $d;'>$errorMessage</div>";?><div class="input-container"><div class="bar"><label for="oldPassword">Nåværende passord</label><a onclick="showPassword('oldPassword')">Vis/Skjul</a></div><input type='password' id='oldPassword' name='oldPassword' placeholder="Nåværende passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'></div><div class="input-container"><div class="bar"><label for="newPassword">Nytt passord</label><a onclick="showPassword('newPassword')">Vis/Skjul</a></div><input type='password' id='newPassword' name='newPassword' placeholder="Nytt passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'><input type='password' id='confirmPassword' name='confirmPassword' placeholder="Bekreft passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'></div><input type="submit" value="Bytt passord"></form>
+function changePassword($errorMessage)
+{
+    $regexPassword = substr($GLOBALS['regex']['password'], 1, -1);
+?>
+    <form method="POST" action="">
+        <h2>Bytt passord</h2>
+        <?php $d = $errorMessage == "" ? "none" : "block"; ?>
+        <div class='error' style='display: <?= $d ?>;'><?= $errorMessage ?></div>
+        <div class="input-container">
+            <div class="bar">
+                <label for="oldPassword">Nåværende passord</label>
+                <a onclick="showPassword('oldPassword')">Vis/Skjul</a>
+            </div>
+            <input type='password' id='oldPassword' name='oldPassword' placeholder="Nåværende passord" required pattern='<?= $regexPassword ?>'>
+        </div>
+        <div class="input-container">
+            <div class="bar">
+                <label for="newPassword">Nytt passord</label>
+                <a onclick="showPassword('newPassword')">Vis/Skjul</a>
+            </div>
+            <input type='password' id='newPassword' name='newPassword[]' placeholder="Nytt passord" required pattern='<?= $regexPassword ?>'>
+            <input type='password' name='newPassword[]' placeholder="Bekreft passord" required pattern='<?= $regexPassword ?>'>
+        </div>
+        <input type="submit" value="Bytt passord">
+    </form>
 <?php } ?>
 
 <div class="col">
@@ -25,9 +51,9 @@ function changePassword($errorMessage){ ?>
         <table>
             <tr>
                 <th>Produkt</th>
-                <th>Ledige</th>
-                <th>Reservert</th>
-                <th>Utlån</th>
+                <th class="num">Ledige</th>
+                <th class="num">Reservert</th>
+                <th class="num">Utlån</th>
             </tr>
             <?php
             foreach ($db["equipment"] as $item) {
@@ -62,11 +88,11 @@ function changePassword($errorMessage){ ?>
                 <label for="reserveAmount">Antall</label>
                 <input type="number" name="reserveAmount" id="reserveAmount" min="1" max="1" placeholder="Antall" required>
             </div>
-            <input type="submit" value="Lån">
+            <input type="submit" value="Lån produkt">
         </form>
     </div>
     <div class="container pad">
-        <form method="POST" action="" id="reserve" class="mainForm">
+        <form method="POST" action="">
             <h2>Reserver fra lageret</h2>
             <div class="input-container">
                 <label for="reserveItem">Velg produkt</label>
@@ -91,11 +117,11 @@ function changePassword($errorMessage){ ?>
             <input type="hidden" id="timezone" name="timezone" value="-01:00">
             <div class="input-container">
                 <label for="reserveStartDate">Starttid</label>
-                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Starttid (dd/MM hh:mm)" required>
+                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Starttid (dd/MM/yy hh:mm)" min="<?php echo date('Y-m-d H:m:s'); ?>" required>
             </div>
             <div class="input-container">
                 <label for="reserveEndDate">Sluttid</label>
-                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Sluttid (dd/MM hh:mm)" required>
+                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Sluttid (dd/MM/yy hh:mm)" min="<?php echo date('Y-m-d H:m:s'); ?>" required>
             </div>
 
             <!--When item name is selected above, a
@@ -130,20 +156,33 @@ function changePassword($errorMessage){ ?>
     </div>
     <div class="container pad">
         <?php
-        if (isset($_POST["oldPassword"]) && isset($_POST["newPassword"]) && $_POST["confirmPassword"])
-            if (
-                preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['oldPassword'])
-                && preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['newPassword'])
-                && preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['confirmPassword'])
-            )
-                if (password_verify($_POST['oldPassword'], $db["users"][$_COOKIE['userid']]['password']))
-                    if ($_POST['newPassword'] === $_POST['confirmPassword']) {
-                        $db["users"][$_COOKIE['userid']]['password'] = password_hash($_POST['newPassword'], PASSWORD_BCRYPT);
+        $regexPassword = $GLOBALS['regex']['password'];
+        if (isset($_POST["oldPassword"]) && isset($_POST["newPassword"][0]) && $_POST["newPassword"][1])
+            if ($_POST['newPassword'][0] == $_POST['newPassword'][1])
+                if (
+                    preg_match($regexPassword, $_POST['oldPassword'])
+                    && preg_match($regexPassword, $_POST['newPassword'][0])
+                )
+                    if (password_verify($_POST['oldPassword'], $db["users"][$_COOKIE['userid']]['password'])) {
+                        $newPassword = password_hash($_POST['newPassword'][0], PASSWORD_BCRYPT);
+                        $passwords = [
+                            "old" => $db["users"][$_COOKIE['userid']]['password'],
+                            "new" => $newPassword,
+                        ];
+                        $db["users"][$_COOKIE['userid']]['password'] = $newPassword;
+                        $logData = [
+                            "time" => date('H:m:s'),
+                            "user" => $db["users"][$_COOKIE['userid']]["username"],
+                            "func" => "change_password",
+                            "addr" => $_SERVER["REMOTE_ADDR"],
+                            "data" => base64_encode(json_encode($passwords))
+                        ];
+                        logThis($logData);
                         file_put_contents("db.json", json_encode($db));
                         header("Location:./");
-                    } else changePassword("Passordene er ikke like :(");
-                else changePassword("Det nåværende passordet er feil :(");
-            else changePassword("Et eller flere av feltene er formatert feil :(");
+                    } else changePassword("Det nåværende passordet er feil :(");
+                else changePassword("Et eller flere av feltene er formatert feil :(");
+            else changePassword("Passordene er ikke like :(");
         else changePassword("");
         ?>
     </div>

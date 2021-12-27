@@ -5,6 +5,8 @@ if (!isset($_SERVER['REQUEST_URI']) || str_contains($_SERVER['REQUEST_URI'], 'lo
 // Show the login page with custom error code
 function getName($errorMessage)
 {
+    $regexUsername = substr($GLOBALS["regex"]["username"], 1, -1);
+    $regexPassword = substr($GLOBALS["regex"]["password"], 1, -1);
 ?>
     <div class='col'>
         <div class="container pad">
@@ -16,14 +18,14 @@ function getName($errorMessage)
                 ?>
                 <div class='input-container'>
                     <label for='loginUsername'>Brukernavn&nbsp;</label>
-                    <input type='text' id='loginUsername' name='username' placeholder="Brukernavn" required autofocus pattern='^[a-zæøå]{2,6}[0-9]{2}$'>
+                    <input type='text' id='loginUsername' name='username' placeholder="Brukernavn" required autofocus pattern='<?= $regexUsername ?>'>
                 </div>
                 <div class='input-container'>
-                    <div class="above-input">
+                    <div class="bar">
                         <label for='loginPassword'>Passord&nbsp;</label>
                         <a onclick="showPassword('loginPassword')">Vis/Skjul</a>
                     </div>
-                    <input type='password' id='loginPassword' name='password' placeholder="Passord" required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'>
+                    <input type='password' id='loginPassword' name='password' placeholder="Passord" required pattern='<?= $regexPassword ?>'>
                 </div>
                 <input type='submit' value="Logg inn">
             </form>
@@ -39,11 +41,11 @@ if (
     isset($_POST['username']) &&
     isset($_POST['password'])
 ) {
-    
+
     // Check if the inputted username matches the expected pattern
     if (
-        preg_match('/^[a-zæøå]{2,6}[0-9]{2}$/', trim($_POST['username'])) &&
-        preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $_POST['password'])
+        preg_match($regex["username"], $_POST['username']) &&
+        preg_match($regex["password"], $_POST['password'])
     ) {
 
         // Check if a user with matching credentials exists
@@ -55,14 +57,6 @@ if (
                 // Remember the user with a cookie
                 // setcookie('userid', password_hash($_POST['username'] . $_POST['password'], PASSWORD_BCRYPT), $cookieOptions);
                 setcookie('userid', $i, $cookieOptions);
-                
-                $logData = [
-                    "time" => date("H").":".date("m").":".date("s"),
-                    "user" => $db["users"][$_COOKIE["userid"]]["username"],
-                    "func" => "login",
-                    "addr" => $_SERVER["REMOTE_ADDR"],
-                ];
-                logThis($logData);
 
                 // Redirect to user to manage.php
                 header('location:./');

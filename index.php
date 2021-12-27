@@ -13,25 +13,42 @@
 
 <body>
 	<?php
+	function importLogs()
+	{
+		// Get data from json log
+		return json_decode(file_get_contents("log.json"), true);
+	}
 	function logThis($data)
 	{
-		// Get current data from json log
-		$log = json_decode(file_get_contents("log.json"), true);
+		$log = importLogs();
+
+		// Get date
 		$d = date("d");
 		$m = date("m");
 		$y = date("Y");
-		if (!isset($log[$y]))
-			$log[] = [$y => [$m => [$d]]];
-		elseif (!isset($log[$y][$m]))
-			$log[$y] = [$m => [$d]];
-		elseif (!isset($log[$y][$m][$d]))
-			$log[$y][$m] = [$d];
-		array_push($log[date("Y")][date("m")][date("d")], $data);
+
+		if (!isset($log[$y])) $log[] = [$y => [$m => [$d => [$data]]]];
+		elseif (!isset($log[$y][$m])) $log[$y][] = [$m => [$d => [$data]]];
+		elseif (!isset($log[$y][$m][$d])) $log[$y][$m][] = [$d => [$data]];
+		else array_push($log[date("Y")][date("m")][date("d")], $data);
 		file_put_contents('log.json', json_encode($log));
 	}
 
 	// Get data from json database
 	$db = json_decode(file_get_contents("db.json"), true);
+
+	// Assigning variables which are required in more than one page
+
+	// Minimum requirements for a password: 
+	// * 8 characters long, 
+	// * 1 capital letter, 
+	// * 1 lower case letter,
+	// * 1 number,
+	$regex = [
+		"password" => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/',
+		"username" => '/^[a-zæøå]{2,6}[0-9]{2}$/',
+		"usernamenoid" => '/^[a-zæøå]{2,6}$/'
+	];
 
 	// Check if user with the id exists
 	if (isset($_COOKIE['userid'])) {
