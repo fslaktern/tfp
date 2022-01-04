@@ -181,7 +181,7 @@ function changePassword($errorMessage)
                         ];
                         logThis($logData);
                         file_put_contents("db.json", json_encode($db));
-                        header("Location:./");
+                        header("location:./php/logout.php");
                     } else changePassword("Det nåværende passordet er feil :(");
                 else changePassword("Et eller flere av feltene er formatert feil :(");
             else changePassword("Passordene er ikke like :(");

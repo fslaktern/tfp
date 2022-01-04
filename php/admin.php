@@ -127,8 +127,9 @@ function restoreUser()
     </div>
 <?php
 }
-function filterLogs() {
-    ?>
+function filterLogs()
+{
+?>
     <div class="container pad">
         <h2>Filtrer loggen</h2>
         <form action="" method="POST">
@@ -152,7 +153,7 @@ function filterLogs() {
             <input type="submit" value="Filtrer etter nett">
         </form>
     </div>
-    <?php
+<?php
 }
 function showLogs($logs, $method)
 {
@@ -260,7 +261,8 @@ function showLogs($logs, $method)
 </div>
 <div class="col">
     <?php
-    if (isset($_POST["deleteUser"]) && !is_null($_POST["deleteUser"])) {
+    // && !is_null($_POST["deleteUser"])
+    if (isset($_POST["deleteUser"])) {
         if (isset($db["users"][$_POST["deleteUser"]])) {
             $userid = $_POST["deleteUser"];
             if ($db["users"][$userid]["elevated"] == "0") {
@@ -314,14 +316,14 @@ function showLogs($logs, $method)
 <section id="logs">
     <div class="col">
         <?php
-            if(isset($_POST["logFilter"])) {
-                // Filtrer etter:
-                // * Tid,
-                // * Bruker,
-                // * Elev-/Lærernett,
-                // * IP-addresse,
-                // * Hendelse
-            } else filterLogs();
+        if (isset($_POST["logFilter"])) {
+            // Filtrer etter:
+            // * Tid,
+            // * Bruker,
+            // * Elev-/Lærernett,
+            // * IP-addresse,
+            // * Hendelse
+        } else filterLogs();
         ?>
     </div>
     <div class="col large">
