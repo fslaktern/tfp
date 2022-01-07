@@ -246,7 +246,7 @@ function showLogs($logs, $method)
                 file_put_contents('db.json', json_encode($db));
 
                 $logData = [
-                    "time" => date("H:m:s"),
+                    "time" => date("H:i:s"),
                     "user" => $db["users"][$_COOKIE["userid"]]["username"],
                     "func" => "add_user",
                     "addr" => $_SERVER["REMOTE_ADDR"],
@@ -278,7 +278,7 @@ function showLogs($logs, $method)
 
                 // Log the action
                 $logData = [
-                    "time" => date("H:m:s"),
+                    "time" => date("H:i:s"),
                     "user" => $db["users"][$_COOKIE["userid"]]["username"],
                     "func" => "delete_user",
                     "addr" => $_SERVER["REMOTE_ADDR"],
@@ -298,7 +298,7 @@ function showLogs($logs, $method)
     if (isset($_POST["restoreUser"]) && isset($db["deletedUsers"][$_POST["restoreUser"]])) {
         $db["users"][] = $db["deletedUsers"][$_POST["restoreUser"]];
         $logData = [
-            "time" => date("H:m:s"),
+            "time" => date("H:i:s"),
             "user" => $db["users"][$_COOKIE["userid"]]["username"],
             "func" => "restore_user",
             "addr" => $_SERVER["REMOTE_ADDR"],

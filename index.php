@@ -18,7 +18,7 @@
 		// Get data from json log
 		return json_decode(file_get_contents("log.json"), true);
 	}
-	function logThis($data)
+	function logThis($logData)
 	{
 		$log = importLogs();
 
@@ -27,10 +27,10 @@
 		$m = date("m");
 		$y = date("Y");
 
-		if (!isset($log[$y])) $log[] = [$y => [$m => [$d => [$data]]]];
-		elseif (!isset($log[$y][$m])) $log[$y][] = [$m => [$d => [$data]]];
-		elseif (!isset($log[$y][$m][$d])) $log[$y][$m][] = [$d => [$data]];
-		else array_push($log[date("Y")][date("m")][date("d")], $data);
+		if (is_null($log[$y])) $log[] = [$y => [$m => [$d => $logData]]];
+		elseif (is_null($log[$y][$m])) $log[$y][] = [$m => [$d => $logData]];
+		elseif (is_null($log[$y][$m][$d])) $log[$y][$m][] = [$d => $logData];
+		else $log[$y][$m][$d][] = $logData;
 		file_put_contents('log.json', json_encode($log));
 	}
 

@@ -119,11 +119,11 @@ function changePassword($errorMessage)
             <input type="hidden" id="timezone" name="timezone" value="-01:00">
             <div class="input-container">
                 <label for="reserveStartDate">Starttid</label>
-                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Starttid (dd/MM/yy hh:mm)" min="<?php echo date('Y-m-d H:m:s'); ?>" required>
+                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Starttid (dd/MM/yy hh:mm)" min="<?php echo date('Y-m-d H:i:s'); ?>" required>
             </div>
             <div class="input-container">
                 <label for="reserveEndDate">Sluttid</label>
-                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Sluttid (dd/MM/yy hh:mm)" min="<?php echo date('Y-m-d H:m:s'); ?>" required>
+                <input type="datetime-local" name="reserveStartDate" id="reserveStartDate" placeholder="Sluttid (dd/MM/yy hh:mm)" min="<?php echo date('Y-m-d H:i:s'); ?>" required>
             </div>
 
             <!--When item name is selected above, a
@@ -173,7 +173,7 @@ function changePassword($errorMessage)
                         ];
                         $db["users"][$_COOKIE['userid']]['password'] = $newPassword;
                         $logData = [
-                            "time" => date('H:m:s'),
+                            "time" => date('H:i:s'),
                             "user" => $db["users"][$_COOKIE['userid']]["username"],
                             "func" => "change_password",
                             "addr" => $_SERVER["REMOTE_ADDR"],
