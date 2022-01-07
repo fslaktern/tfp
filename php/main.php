@@ -180,8 +180,8 @@ function changePassword($errorMessage)
             <h2>Lånte produkter</h2>
             <table>
                 <tr>
-                    <th>Produkt</th>
                     <th>Antall</th>
+                    <th>Produkt</th>
                     <th>Utlevert</th>
                     <th>Innleveringstid</th>
                 </tr>
@@ -189,8 +189,8 @@ function changePassword($errorMessage)
                 foreach ($db["users"][$_COOKIE["userid"]]["rented"] as $product) {
                 ?>
                     <tr>
+                        <td class="num"><?= $product['amount'] ?></td>
                         <td><?= $product['equipment'] ?></td>
-                        <td><?= $product['amount'] ?></td>
                         <td><?= $product['startTime'] ?></td>
                         <td><?= $product['endTime'] ?></td>
                     </tr>
@@ -203,17 +203,17 @@ function changePassword($errorMessage)
             <h2>Reserverte Produkter</h2>
             <table>
                 <tr>
-                    <th>Produkt</th>
                     <th>Antall</th>
+                    <th>Produkt</th>
                     <th>Starttid</th>
                     <th>Sluttid</th>
                 </tr>
                 <?php
-                foreach ($db["users"][$_COOKIE["userid"]]["rented"] as $product) {
+                foreach ($db["users"][$_COOKIE["userid"]]["reserved"] as $product) {
                 ?>
                     <tr>
+                        <td class="num"><?= $product['amount'] ?></td>
                         <td><?= $product['equipment'] ?></td>
-                        <td><?= $product['amount'] ?></td>
                         <td><?= $product['startTime'] ?></td>
                         <td><?= $product['endTime'] ?></td>
                     </tr>
