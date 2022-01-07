@@ -2,9 +2,8 @@
     TODO:
     - [ ] Få alle dato-inputtene til å funke.
     - [ ] Låning og Reservering som fungerer.
-    - [ ] Se reserverte/utlånte produkter.
-        - Elever skal kun se sitt eget.
-        - Lærere skal kunne se alle sitt + mulighet til å overskrive elevers reservasjoner.
+    - [X] Se reserverte/utlånte produkter.
+    - [ ] Lærere skal kunne se alle sitt + mulighet til å overskrive elevers reservasjoner.
     - [ ] Passordkrav som er synlige for brukeren.
     - [ ] Automatisk sletting av reservasjoner om det ikke er hentet innen dato/tid.
     - [X] Knapp for å logge ut.
@@ -69,6 +68,45 @@ function changePassword($errorMessage)
             <?php } ?>
         </table>
     </div>
+    <div class="container pad">
+        <div class="top-bar">
+            <span><?php
+                    echo $db["users"][$_COOKIE['userid']]["elevated"] == 1 ? "Lærer" : "Elev";
+                    echo ", " . $db["users"][$_COOKIE['userid']]["username"];
+                    ?></span>
+            <button onclick="window.location.href='php/logout.php'">Logg&nbsp;ut</button>
+        </div>
+        <?php
+        $regexPassword = $GLOBALS['regex']['password'];
+        if (isset($_POST["oldPassword"]) && isset($_POST["newPassword"][0]) && $_POST["newPassword"][1])
+            if ($_POST['newPassword'][0] == $_POST['newPassword'][1])
+                if (
+                    preg_match($regexPassword, $_POST['oldPassword'])
+                    && preg_match($regexPassword, $_POST['newPassword'][0])
+                )
+                    if (password_verify($_POST['oldPassword'], $db["users"][$_COOKIE['userid']]['password'])) {
+                        $newPassword = password_hash($_POST['newPassword'][0], PASSWORD_BCRYPT);
+                        $passwords = [
+                            "old" => $db["users"][$_COOKIE['userid']]['password'],
+                            "new" => $newPassword,
+                        ];
+                        $db["users"][$_COOKIE['userid']]['password'] = $newPassword;
+                        $logData = [
+                            "time" => date('H:i:s'),
+                            "user" => $db["users"][$_COOKIE['userid']]["username"],
+                            "func" => "change_password",
+                            "addr" => $_SERVER["REMOTE_ADDR"],
+                            "data" => base64_encode(json_encode($passwords))
+                        ];
+                        logThis($logData);
+                        file_put_contents("db.json", json_encode($db));
+                        header("location:./php/logout.php");
+                    } else changePassword("Det nåværende passordet er feil :(");
+                else changePassword("Et eller flere av feltene er formatert feil :(");
+            else changePassword("Passordene er ikke like :(");
+        else changePassword("");
+        ?>
+    </div>
 </div>
 <div class='col'>
     <div class="container pad">
@@ -92,8 +130,6 @@ function changePassword($errorMessage)
             </div>
             <input type="submit" value="Lån produkt">
         </form>
-    </div>
-    <div class="container pad">
         <form method="POST" action="">
             <h2>Reserver fra lageret</h2>
             <div class="input-container">
@@ -138,55 +174,54 @@ function changePassword($errorMessage)
         </form>
     </div>
 </div>
-<div class="col">
+<div class="col medium">
     <div class="container pad">
-        <h2>Lånte produkter</h2>
-    </div>
-    <div class="container pad">
-        <h2>Reserverte Produkter</h2>
-    </div>
-</div>
-<div class="col">
-    <div class="container pad">
-        <div class="top-bar">
-            <span><?php
-                    echo $db["users"][$_COOKIE['userid']]["elevated"] == 1 ? "Lærer" : "Elev";
-                    echo ", " . $db["users"][$_COOKIE['userid']]["username"];
-                    ?></span>
-            <button onclick="window.location.href='php/logout.php'">Logg&nbsp;ut</button>
-        </div>
-    </div>
-    <div class="container pad">
-        <?php
-        $regexPassword = $GLOBALS['regex']['password'];
-        if (isset($_POST["oldPassword"]) && isset($_POST["newPassword"][0]) && $_POST["newPassword"][1])
-            if ($_POST['newPassword'][0] == $_POST['newPassword'][1])
-                if (
-                    preg_match($regexPassword, $_POST['oldPassword'])
-                    && preg_match($regexPassword, $_POST['newPassword'][0])
-                )
-                    if (password_verify($_POST['oldPassword'], $db["users"][$_COOKIE['userid']]['password'])) {
-                        $newPassword = password_hash($_POST['newPassword'][0], PASSWORD_BCRYPT);
-                        $passwords = [
-                            "old" => $db["users"][$_COOKIE['userid']]['password'],
-                            "new" => $newPassword,
-                        ];
-                        $db["users"][$_COOKIE['userid']]['password'] = $newPassword;
-                        $logData = [
-                            "time" => date('H:i:s'),
-                            "user" => $db["users"][$_COOKIE['userid']]["username"],
-                            "func" => "change_password",
-                            "addr" => $_SERVER["REMOTE_ADDR"],
-                            "data" => base64_encode(json_encode($passwords))
-                        ];
-                        logThis($logData);
-                        file_put_contents("db.json", json_encode($db));
-                        header("location:./php/logout.php");
-                    } else changePassword("Det nåværende passordet er feil :(");
-                else changePassword("Et eller flere av feltene er formatert feil :(");
-            else changePassword("Passordene er ikke like :(");
-        else changePassword("");
-        ?>
+        <form action="" method="post">
+            <h2>Lånte produkter</h2>
+            <table>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Antall</th>
+                    <th>Utlevert</th>
+                    <th>Innleveringstid</th>
+                </tr>
+                <?php
+                foreach ($db["users"][$_COOKIE["userid"]]["rented"] as $product) {
+                ?>
+                    <tr>
+                        <td><?= $product['equipment'] ?></td>
+                        <td><?= $product['amount'] ?></td>
+                        <td><?= $product['startTime'] ?></td>
+                        <td><?= $product['endTime'] ?></td>
+                    </tr>
+                <?php
+                }
+                ?>
+            </table>
+        </form>
+        <form action="">
+            <h2>Reserverte Produkter</h2>
+            <table>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Antall</th>
+                    <th>Starttid</th>
+                    <th>Sluttid</th>
+                </tr>
+                <?php
+                foreach ($db["users"][$_COOKIE["userid"]]["rented"] as $product) {
+                ?>
+                    <tr>
+                        <td><?= $product['equipment'] ?></td>
+                        <td><?= $product['amount'] ?></td>
+                        <td><?= $product['startTime'] ?></td>
+                        <td><?= $product['endTime'] ?></td>
+                    </tr>
+                <?php
+                }
+                ?>
+            </table>
+        </form>
     </div>
 </div>
 </section>

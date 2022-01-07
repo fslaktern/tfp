@@ -107,8 +107,8 @@ function restoreUser()
     $db = $GLOBALS['db'];
 ?>
     <div class="container pad">
-        <h2>Restaurer en slettet bruker</h2>
         <form action="" method="post">
+            <h2>Restaurer en slettet bruker</h2>
             <div class="input-container">
                 <label for="restoreUser">Velg bruker</label>
                 <select name="restoreUser" id="restoreUser">
@@ -131,8 +131,8 @@ function filterLogs()
 {
 ?>
     <div class="container pad">
-        <h2>Filtrer loggen</h2>
         <form action="" method="POST">
+            <h2>Filtrer loggen</h2>
             <div class="input-container">
                 <label for="">Velg bruker</label>
                 <select name="" id="" required>
@@ -158,7 +158,7 @@ function filterLogs()
 function showLogs($logs, $method)
 {
 ?>
-    <div class="container no-gap">
+    <div class="container no-gap no-border">
         <div class="bar pad">
             <h2>Logg</h2>
             <form action="" method="post" class="small input-container horizontal" oninput="this.submit()">
