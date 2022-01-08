@@ -21,29 +21,19 @@
 	function logThis($logData)
 	{
 		$log = importLogs();
-
-		// Get date
-		$d = date("d");
-		$m = date("m");
-		$y = date("Y");
-
-		if (is_null($log[$y])) $log[] = [$y => [$m => [$d => $logData]]];
-		elseif (is_null($log[$y][$m])) $log[$y][] = [$m => [$d => $logData]];
-		elseif (is_null($log[$y][$m][$d])) $log[$y][$m][] = [$d => $logData];
-		else $log[$y][$m][$d][] = $logData;
+		$log[date("Y")][date("m")][date("d")][] = $logData;
 		file_put_contents('log.json', json_encode($log));
 	}
 
 	// Get data from json database
 	$db = json_decode(file_get_contents("db.json"), true);
 
-	// Assigning variables which are required in more than one page
-
-	// Minimum requirements for a password: 
-	// * 8 characters long, 
-	// * 1 capital letter, 
-	// * 1 lower case letter,
-	// * 1 number,
+	// Assigning variables which are required on more than a single page
+		// Minimum requirements for a password: 
+		// * 8 characters long, 
+		// * 1 capital letter, 
+		// * 1 lower case letter,
+		// * 1 number,
 	$regex = [
 		"password" => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/',
 		"username" => '/^[a-zæøå]{2,6}[0-9]{2}$/',

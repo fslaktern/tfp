@@ -96,7 +96,6 @@ function deleteUser($errorMessage)
                 <label for="deleteGroupRegex">Velg brukere med Regex</label>
                 <input type="text" name="deleteGroupRegex" id="deleteGroupRegex" placeholder="^test[123456789]{1}">
             </div>
-
             <input type="submit" value="Fjern bruker(e)">
         </form>
     </div>
@@ -179,20 +178,34 @@ function showLogs($logs, $method)
             </tr>
             <?php
             if ($method == "multiple") {
-                foreach ($logs as $logYK => $logY)
-                    foreach ($logY as $logMK => $logM)
-                        foreach ($logM as $logDK => $logD)
-                            for ($i = 0; $i < count($logD); $i++) {
+                $yearKeys = array_keys($logs);
+                for ($i = count($logs) - 1; $i >= 0; $i--) {
+                    $y = $yearKeys[$i];
+                    $yearLog = $logs[$yearKeys[$i]];
+                    $monthKeys = array_keys($yearLog);
+                    for ($j = count($yearLog) - 1; $j >= 0; $j--) {
+                        $m = $monthKeys[$j];
+                        $monthLog = $yearLog[$monthKeys[$j]];
+                        $dateKeys = array_keys($monthLog);
+                        for ($k = count($monthLog) - 1; $k >= 0; $k--) {
+                            $d = $dateKeys[$k];
+                            $dateLog = $monthLog[$dateKeys[$k]];
+                            $singleKeys = array_keys($dateLog);
+                            for ($l = count($dateLog) - 1; $l >= 0; $l--) {
+                                $singleLog = $dateLog[$singleKeys[$l]];
             ?>
-                    <tr>
-                        <td><?= "$logYK/$logMK/$logDK " . $logD[$i]["time"] ?></td>
-                        <td><?= $logD[$i]["user"] ?></td>
-                        <td><?= $logD[$i]["addr"] ?></td>
-                        <td><?= $logD[$i]["func"] ?></td>
-                        <td><a target='_blank' href='php/raw.php?d=<?= urlencode($logD[$i]["data"]) ?>'>Åpne</a></td>
-                    </tr>
+                                <tr>
+                                    <td><?= "$y/$m/$d " . $singleLog["time"] ?></td>
+                                    <td><?= $singleLog["user"] ?></td>
+                                    <td><?= $singleLog["addr"] ?></td>
+                                    <td><?= $singleLog["func"] ?></td>
+                                    <td><a target='_blank' href='php/raw.php?d=<?= urlencode($singleLog["data"]) ?>'>Åpne</a></td>
+                                </tr>
             <?php
                             }
+                        }
+                    }
+                }
             }
             ?>
         </table>
@@ -201,7 +214,6 @@ function showLogs($logs, $method)
 }
 ?>
 <div class="col">
-
     <?php
     if (
         isset($_POST["nuUsername"]) &&
@@ -218,11 +230,9 @@ function showLogs($logs, $method)
                 $i = 1;
                 $exists = true;
                 while ($exists) {
-
-                    // Pad id with a "0" if there are less than 2 digits.
+                    // pad id with a "0" if there are less than 2 digits.
                     if ($i < 10) $id = "0" . $i;
                     else $id = $i;
-
                     $exists = false;
                     $n = 0;
                     while ($n < count($db["users"]) && !$exists) {
@@ -230,10 +240,8 @@ function showLogs($logs, $method)
                         $n++;
                     }
                     if (!$exists) break;
-
                     $i++;
                 }
-
                 $user = [
                     "username" => $_POST["nuUsername"] . $id,
                     "password" => password_hash($_POST["nuPassword"][0], PASSWORD_BCRYPT),
@@ -244,7 +252,6 @@ function showLogs($logs, $method)
                 ];
                 $db["users"][] = $user;
                 file_put_contents('db.json', json_encode($db));
-
                 $logData = [
                     "time" => date("H:i:s"),
                     "user" => $db["users"][$_COOKIE["userid"]]["username"],
@@ -253,41 +260,37 @@ function showLogs($logs, $method)
                     "data" => base64_encode(json_encode($user))
                 ];
                 logThis($logData);
-                header("Location:./");
-            } else addUser("Et eller flere felter er formatert feil :(");
-        } else addUser("Passordene samsvarer ikke :(");
+                header("location:./");
+            } else addUser("et eller flere felter er formatert feil :(");
+        } else addUser("passordene samsvarer ikke :(");
     } else addUser("");
     ?>
 </div>
 <div class="col">
     <?php
-    // && !is_null($_POST["deleteUser"])
+    // && !is_null($_POST["deleteuser"])
     if (isset($_POST["deleteUser"])) {
         if (isset($db["users"][$_POST["deleteUser"]])) {
             $userid = $_POST["deleteUser"];
             if ($db["users"][$userid]["elevated"] == "0") {
-
-                // Save the deleted user in a separate array if it needs to be recovered later
+                // save the deleted user in a separate array if it needs to be recovered later
                 $deletedUser = $db["users"][$userid];
                 $db["deletedUsers"][] = $deletedUser;
-
-                // Delete user from userlist
+                // delete user from userlist
                 unset($db["users"][$userid]);
                 $db["users"] = array_values($db["users"]);
                 file_put_contents("db.json", json_encode($db));
-
-                // Log the action
+                // log the action
                 $logData = [
                     "time" => date("H:i:s"),
                     "user" => $db["users"][$_COOKIE["userid"]]["username"],
                     "func" => "delete_user",
                     "addr" => $_SERVER["REMOTE_ADDR"],
-                    "data" => base64_encode(json_encode($deletedUser))
+                    "data" => base64_encode(json_encode($deleteduser))
                 ];
                 logThis($logData);
-
-                // Update page with new changes
-                header("Location:./");
+                // update page with new changes
+                header("location:./");
             } else deleteUser("Du kan dessverre ikke fjerne denne brukeren :(");
         } else deleteUser("Denne brukeren finnes ikke :(");
     } else deleteUser("");
@@ -308,7 +311,7 @@ function showLogs($logs, $method)
         unset($db["deletedUsers"][$_POST["restoreUser"]]);
         $db["deletedUsers"] = array_values($db["deletedUsers"]);
         file_put_contents("db.json", json_encode($db));
-        header("Location:./");
+        header("location:./");
     } else restoreUser();
     ?>
 </div>
@@ -317,12 +320,12 @@ function showLogs($logs, $method)
     <div class="col">
         <?php
         if (isset($_POST["logFilter"])) {
-            // Filtrer etter:
-            // * Tid,
-            // * Bruker,
-            // * Elev-/Lærernett,
-            // * IP-addresse,
-            // * Hendelse
+            // filtrer etter:
+            // * tid,
+            // * bruker,
+            // * elev-/lærernett,
+            // * ip-addresse,
+            // * hendelse
         } else filterLogs();
         ?>
     </div>
@@ -331,7 +334,7 @@ function showLogs($logs, $method)
         $log = importLogs();
         if (isset($_POST["logDate"])) {
             $logDate = explode("-", $_POST["logDate"]);
-            $logList = $log[$logDate[0]][$logDate[1]][$logDate[2]];
+            $loglist = $log[$logDate[0]][$logDate[1]][$logDate[2]];
             showLogs($logList, "single");
         } else {
             $logList = $log;
