@@ -1,8 +1,0 @@
-/backup/
-/css/
-/fonts/
-/img/
-/js/
-/php/
-/db.json
-/log.json
